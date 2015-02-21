@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include "YK.h"
 #include "mb.h"
+#include "eeprom.h"
 extern u16 usRegHoldingBuf[9];
 u8  TxBuffer2[TxBufferSize2];
 u8  RxBuffer2[RxBufferSize2];
@@ -116,8 +117,8 @@ void Air_Init(void)
 	if(tmp_flag == 0)
 		{
 			Air_Data[AIR_CMD_TYPE] = usRegHoldingBuf[AIR_CMD_TYPE];
-			ee_temp[0] = u8(Air_Data[AIR_CMD_TYPE]);
-			ee_temp[1] = u8(Air_Data[AIR_CMD_TYPE]>>8);
+			ee_temp[0] = (u8)(Air_Data[AIR_CMD_TYPE]);
+			ee_temp[1] = (u8)(Air_Data[AIR_CMD_TYPE]>>8);
 			sEE_WriteBuffer(&ee_temp[0],AIR_CMD_TYPE,1);
 			sEE_WriteBuffer(&ee_temp[1],AIR_CMD_TYPE+1,1);
 		}
