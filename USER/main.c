@@ -8,6 +8,12 @@
 #include "Switch.h"
 #include "eeprom.h"
 
+/*****************/
+
+#include "delay.h"
+#include "oled.h"
+//#include "bmp.h"
+
 //输入寄存器起始地址
 #define REG_INPUT_START       0x0000
 //输入寄存器数量
@@ -48,6 +54,27 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
  	u8 eeaa;
 	u8 eeww = 2;
 	uint16_t nn = 1;
+	 
+		delay_init();	    	 //delay	  
+		OLED_Init();			//oled  
+		OLED_Clear()  	; 
+	while(1) 
+	{		
+		OLED_Clear();
+		delay_ms(1000);
+	//	OLED_ShowCHinese(0,0,0);//?
+		OLED_ShowBig(16,0,2);
+		OLED_ShowBig(48,0,5);
+		OLED_ShowBig(80,0,10);
+		OLED_ShowBig(96,0,6);
+		OLED_ShowSymbol(0,0,0);
+		OLED_ShowSymbol(0,2,1);
+		OLED_ShowSymbol(0,4,2);
+		OLED_ShowSymbol(0,6,3);
+		delay_ms(1000);
+	}
+	 
+	 
  	Switch_Init();
  	Serial2_Init();
   eMBInit(MB_RTU, Get_Address(), 0x01, 9600, MB_PAR_NONE); //初始化 RTU模式 从机地址为1 USART1 9600 无校验  
