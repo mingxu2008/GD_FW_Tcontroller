@@ -312,6 +312,7 @@ void OLED_Init(void)
  	GPIO_SetBits(GPIOG,GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);						 //PG13,14,15 OUT  输出高
 
  #else
+ #if 0
  	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;				 //PC0,1 OUT推挽输出
  	GPIO_Init(GPIOC, &GPIO_InitStructure);
  	GPIO_SetBits(GPIOC,GPIO_Pin_0|GPIO_Pin_1);						 //PC0,1 OUT  输出高
@@ -319,7 +320,7 @@ void OLED_Init(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;				 //PG15 OUT推挽输出	  RST
  	GPIO_Init(GPIOG, &GPIO_InitStructure);
  	GPIO_SetBits(GPIOG,GPIO_Pin_15);						 //PG15 OUT  输出高
-
+#endif
 
  #endif
 

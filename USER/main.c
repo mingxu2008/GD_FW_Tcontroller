@@ -12,6 +12,8 @@
 
 #include "delay.h"
 #include "oled.h"
+
+#include "T_GPIO.h"
 //#include "bmp.h"
 
 //输入寄存器起始地址
@@ -51,16 +53,88 @@ uint8_t ucRegCoilsBuf[REG_COILS_SIZE / 8] = {0x00,0x00};
 uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
  int main(void)
  {   
- 	u8 eeaa;
-	u8 eeww = 2;
+ 	uint32_t t1 = 0;
+	uint8_t button = 0;
+	uint8_t oled_flag =0;
 	uint16_t nn = 1;
 	 
+		T_GPIO_Init();
 		delay_init();	    	 //delay	  
 		OLED_Init();			//oled  
-		OLED_Clear()  	; 
+		OLED_Clear();
+	 while(1)
+	 {
+		 if(t1 != 0)
+		 {
+				t1--;
+		 }
+		 
+		 if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
+		 {
+			 if(t1 == 0)
+			{
+				delay_ms(1);
+				if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
+				{
+					 t1 = 360000;
+					 button = 1;
+				}
+			}
+		 }
+		 
+		 if(button == 1)
+		 {
+			button = 0;
+			 switch(oled_flag){
+				 case 0: 
+					 			OLED_ShowBig(16,0,2);
+								OLED_ShowBig(48,0,5);
+								OLED_ShowBig(80,0,10);
+								OLED_ShowBig(96,0,6);
+								OLED_ShowSymbol(0,0,0);
+								OLED_ShowSymbol(0,2,1);
+								OLED_ShowSymbol(0,4,2);
+								OLED_ShowSymbol(0,6,3);
+								oled_flag = 1;
+								break;
+				 case 1:
+								OLED_Clear();
+								oled_flag= 0;
+								break;
+				 default:
+								break;
+			 }
+
+		 }
+		 
+	 }
+	 
+	 
+#if 0	 
 	while(1) 
 	{		
 		OLED_Clear();
+		//GPIO_SetBits(GPIOB,GPIO_Pin_10 | GPIO_Pin_11 |GPIO_Pin_12 |GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15);
+/*	
+		GPIO_SetBits(GPIOB,GPIO_Pin_3 | GPIO_Pin_4 |GPIO_Pin_5 |GPIO_Pin_8 | GPIO_Pin_9);
+		GPIO_SetBits(GPIOA,GPIO_Pin_15);
+*/		
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		GPIO_SetBits(GPIOB,GPIO_Pin_15);
+		GPIO_SetBits(GPIOA,GPIO_Pin_8);
+		delay_ms(1000);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_15);
+		GPIO_SetBits(GPIOA,GPIO_Pin_8);
+		delay_ms(1000);
+	/*
+		GPIO_ResetBits(GPIOB,GPIO_Pin_3 | GPIO_Pin_4 |GPIO_Pin_5 |GPIO_Pin_8 | GPIO_Pin_9);
+		GPIO_ResetBits(GPIOA,GPIO_Pin_15);
+	*/
+		delay_ms(1000);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		GPIO_SetBits(GPIOB,GPIO_Pin_15);
+		GPIO_ResetBits(GPIOA,GPIO_Pin_8);
 		delay_ms(1000);
 	//	OLED_ShowCHinese(0,0,0);//?
 		OLED_ShowBig(16,0,2);
@@ -71,10 +145,13 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 		OLED_ShowSymbol(0,2,1);
 		OLED_ShowSymbol(0,4,2);
 		OLED_ShowSymbol(0,6,3);
+		
+		
 		delay_ms(1000);
 	}
-	 
-	 
+#endif
+	
+	#if 0 
  	Switch_Init();
  	Serial2_Init();
   eMBInit(MB_RTU, Get_Address(), 0x01, 9600, MB_PAR_NONE); //初始化 RTU模式 从机地址为1 USART1 9600 无校验  
@@ -92,6 +169,7 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 		Air_Poll();
 		ADC1_Poll(&usRegHoldingBuf[HOLD_REG_TEMP]);
 	}
+#endif
  }
 
 
