@@ -128,7 +128,6 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -140,11 +139,11 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>0</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
-            <UsePdscDebugDescription>0</UsePdscDebugDescription>
+            <RestoreTracepoints>1</RestoreTracepoints>
+            <RestoreTracepoints>1</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -421,24 +420,9 @@
               <FilePath>.\system_stm32f10x.c</FilePath>
             </File>
             <File>
-              <FileName>YK.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\YK.c</FilePath>
-            </File>
-            <File>
               <FileName>T_Sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\T_Sensor.c</FilePath>
-            </File>
-            <File>
-              <FileName>Switch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Switch.c</FilePath>
-            </File>
-            <File>
-              <FileName>Led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Led.c</FilePath>
             </File>
             <File>
               <FileName>Timer2.c</FileName>

@@ -59,22 +59,28 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 	uint16_t nn = 1;
 	 
 		T_GPIO_Init();
+	 ADC1_Init();
 		delay_init();	    	 //delay	  
 		OLED_Init();			//oled  
 		OLED_Clear();
+	 
+	 	GPIO_SetBits(GPIOB,GPIO_Pin_3 | GPIO_Pin_4 |GPIO_Pin_5 |GPIO_Pin_8 | GPIO_Pin_9);
+		GPIO_SetBits(GPIOA,GPIO_Pin_15);
+	 
 	 while(1)
 	 {
+	 	ADC1_Poll();
 		 if(t1 != 0)
 		 {
 				t1--;
 		 }
 		 
-		 if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
+		// if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
 		 {
 			 if(t1 == 0)
 			{
 				delay_ms(1);
-				if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
+		//		if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
 				{
 					 t1 = 360000;
 					 button = 1;
@@ -87,18 +93,27 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 			button = 0;
 			 switch(oled_flag){
 				 case 0: 
-					 			OLED_ShowBig(16,0,2);
-								OLED_ShowBig(48,0,5);
-								OLED_ShowBig(80,0,10);
-								OLED_ShowBig(96,0,6);
 								OLED_ShowSymbol(0,0,0);
-								OLED_ShowSymbol(0,2,1);
-								OLED_ShowSymbol(0,4,2);
-								OLED_ShowSymbol(0,6,3);
+					 			OLED_ShowBig(16,0,Temp_True[0]/100);
+								OLED_ShowBig(48,0,Temp_True[0]%100/10);
+								OLED_ShowBig(80,0,10);
+								OLED_ShowBig(96,0,Temp_True[0]%100%10);
+								
+							//OLED_ShowSymbol(0,2,1);
+								//OLED_ShowSymbol(0,4,2);
+								//OLED_ShowSymbol(0,6,3);
 								oled_flag = 1;
 								break;
 				 case 1:
-								OLED_Clear();
+								OLED_ShowSymbol(0,0,1);
+					 			OLED_ShowBig(16,0,Temp_True[1]/100);
+								OLED_ShowBig(48,0,Temp_True[1]%100/10);
+								OLED_ShowBig(80,0,10);
+								OLED_ShowBig(96,0,Temp_True[1]%100%10);
+								
+								//OLED_ShowSymbol(0,2,1);
+								//OLED_ShowSymbol(0,4,2);
+								//OLED_ShowSymbol(0,6,3);
 								oled_flag= 0;
 								break;
 				 default:

@@ -47,12 +47,12 @@ void TIM2_IRQHandler(void)
 		ms_counter ++;
 		if(ms_counter/1000)
 		{
-			Led1_ON();
+		//	Led1_ON();
 			ms_counter = 0;
 		}
 	 if(ms_counter/500)
 		{
-			Led1_OFF();
+			//Led1_OFF();
 			
 		}
 	
