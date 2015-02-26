@@ -213,6 +213,7 @@ void OLED_ShowSymbol(u8 x,u8 y,u8 no)
       }					
 }
 
+#define ROW_NUM 6
 //Big
 void OLED_ShowBig(u8 x,u8 y,u8 no)
 {      			    
@@ -220,39 +221,40 @@ void OLED_ShowBig(u8 x,u8 y,u8 no)
 		OLED_Set_Pos(x,y);												//no.1
     for(t=0;t<32;t++)
 		{
-				OLED_WR_Byte(Big[8*no][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no][t],OLED_DATA);
 				adder+=1;
      }	
 		OLED_Set_Pos(x,y+1);											//no.2
     for(t=0;t<32;t++)
 			{	
-				OLED_WR_Byte(Big[8*no+1][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no+1][t],OLED_DATA);
 				adder+=1;
       }		
 		OLED_Set_Pos(x,y+2);											//no.3
     for(t=0;t<32;t++)
 			{	
-				OLED_WR_Byte(Big[8*no+2][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no+2][t],OLED_DATA);
 				adder+=1;
       }		
 		OLED_Set_Pos(x,y+3);											//no.4
     for(t=0;t<32;t++)
 			{	
-				OLED_WR_Byte(Big[8*no+3][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no+3][t],OLED_DATA);
 				adder+=1;
       }					
 		OLED_Set_Pos(x,y+4);											//no.5
     for(t=0;t<32;t++)
 			{	
-				OLED_WR_Byte(Big[8*no+4][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no+4][t],OLED_DATA);
 				adder+=1;
       }	
 		OLED_Set_Pos(x,y+5);											//no.6
     for(t=0;t<32;t++)
 			{	
-				OLED_WR_Byte(Big[8*no+5][t],OLED_DATA);
+				OLED_WR_Byte(Big[ROW_NUM*no+5][t],OLED_DATA);
 				adder+=1;
       }	
+#if 0
 		OLED_Set_Pos(x,y+6);											//no.7
     for(t=0;t<32;t++)
 			{	
@@ -265,6 +267,7 @@ void OLED_ShowBig(u8 x,u8 y,u8 no)
 				OLED_WR_Byte(Big[8*no+7][t],OLED_DATA);
 				adder+=1;
       }	
+#endif
 }
 
 /***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7*****************/

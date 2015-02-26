@@ -59,7 +59,7 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 	uint16_t nn = 1;
 	 
 		T_GPIO_Init();
-	 ADC1_Init();
+		ADC1_Init();
 		delay_init();	    	 //delay	  
 		OLED_Init();			//oled  
 		OLED_Clear();
@@ -94,10 +94,14 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 			 switch(oled_flag){
 				 case 0: 
 								OLED_ShowSymbol(0,0,0);
-					 			OLED_ShowBig(16,0,Temp_True[0]/100);
-								OLED_ShowBig(48,0,Temp_True[0]%100/10);
-								OLED_ShowBig(80,0,10);
-								OLED_ShowBig(96,0,Temp_True[0]%100%10);
+								OLED_ShowBig(0,2,11);
+					 			OLED_ShowBig(16,2,Temp_True[0]/100);
+								OLED_ShowBig(48,2,Temp_True[0]%100/10);
+								OLED_ShowBig(80,2,10);
+								OLED_ShowBig(96,2,Temp_True[0]%100%10);
+								OLED_ShowSymbol(32,0,1);
+								OLED_ShowSymbol(64,0,2);
+								OLED_ShowSymbol(96,0,3);
 								
 							//OLED_ShowSymbol(0,2,1);
 								//OLED_ShowSymbol(0,4,2);
@@ -106,10 +110,10 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 								break;
 				 case 1:
 								OLED_ShowSymbol(0,0,1);
-					 			OLED_ShowBig(16,0,Temp_True[1]/100);
-								OLED_ShowBig(48,0,Temp_True[1]%100/10);
-								OLED_ShowBig(80,0,10);
-								OLED_ShowBig(96,0,Temp_True[1]%100%10);
+					 			OLED_ShowBig(16,2,Temp_True[1]/100);
+								OLED_ShowBig(48,2,Temp_True[1]%100/10);
+								OLED_ShowBig(80,2,10);
+								OLED_ShowBig(96,2,Temp_True[1]%100%10);
 								
 								//OLED_ShowSymbol(0,2,1);
 								//OLED_ShowSymbol(0,4,2);
