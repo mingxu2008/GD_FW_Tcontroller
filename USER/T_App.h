@@ -14,6 +14,7 @@ enum T_Mode{
 	COOL_S,
 	COOL_E,
 	COOL_H,
+	DFROST,
 	COMP_CLOSE,
 	T_OFF,
 	AUTO_CTR,

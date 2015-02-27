@@ -119,12 +119,17 @@ void Mode_Poll(void)
 void Oled_Poll(void)
 {
 	int32_t T_Temp;
-	if(oled_t != 0)
+	if(oled_t != 1000)
 	{
 		return;
 	}
+	else
+	{
+		oled_t = 0;
+	}
 	if(Mode_t == 0)
 	{
+		//OLED_Clear();
 		if(Temp_True[0]<0)
 		{
 			OLED_ShowBig(0,2,11);		//'-'
@@ -147,22 +152,32 @@ void Oled_Poll(void)
 		OLED_ShowSymbol(108,0,5);
 	
 	}
+	else if((Mode_t < 500) && (Mode_t > 0))
+	{
+				OLED_Clear();
+				Mode_t = 0;
+	}
+
 	else
 	{
-		OLED_Clear();
+		OLED_ShowString(0,0,"<<<<<<<<<<<<<<<<");
 		switch(MODE_Temp){
 			case COOL_S:
-				OLED_ShowString(0,2,"Freezing S");
+				OLED_ShowString(0,0,"Cooling_S");break;
 			case COOL_E:
-				OLED_ShowString(0,2,"Freezing E");
+				OLED_ShowString(0,0,"Cooling_E");break;
 			case COOL_H:
-				OLED_ShowString(0,2,"Freezing H");
+				OLED_ShowString(0,0,"Cooling_H");break;
+			case DFROST:
+				OLED_ShowString(0,0,"Defrost");break;			
 			case COMP_CLOSE:
-				OLED_ShowString(0,2,"COMP CLOSE");
+				OLED_ShowString(0,0,"Compclose");break;
 			case T_OFF:
-				OLED_ShowString(0,2,"T OFF");
+				OLED_ShowString(0,0,"Toff");break;
 			case AUTO_CTR:
-				OLED_ShowString(0,2,"AUTO");	
+				OLED_ShowString(0,0,"auto");	break;
+			default:
+				break;
 		}
 	}
 

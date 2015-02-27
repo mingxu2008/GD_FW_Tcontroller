@@ -66,10 +66,9 @@ void TIM2_IRQHandler(void)
 	}
   }
 	
-	oled_t++;
-	if(oled_t >= 1000)
+	if(oled_t < 1000)
 	{
-		oled_t =0;
+		oled_t++;
 	}
 
 
