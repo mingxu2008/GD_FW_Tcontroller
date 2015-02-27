@@ -18,7 +18,7 @@
 //0:4线串行模式
 //1:并行8080模式
 #define OLED_MODE 0
-#define SIZE 6		//16
+#define SIZE 16		//16
 #define XLevelL		0x00
 #define XLevelH		0x10
 #define Max_Column	128

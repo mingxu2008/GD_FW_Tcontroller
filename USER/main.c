@@ -7,6 +7,8 @@
 #include "Timer2.h"
 #include "Switch.h"
 #include "eeprom.h"
+#include "main.h"
+#include "T_App.h"
 
 /*****************/
 
@@ -16,26 +18,6 @@
 #include "T_GPIO.h"
 //#include "bmp.h"
 
-//输入寄存器起始地址
-#define REG_INPUT_START       0x0000
-//输入寄存器数量
-#define REG_INPUT_NREGS       8
-//保持寄存器起始地址
-#define REG_HOLDING_START     0x0000
-//保持寄存器数量
-#define REG_HOLDING_NREGS     9
-
-//线圈起始地址
-#define REG_COILS_START       0x0000
-//线圈数量
-#define REG_COILS_SIZE        16
-
-//开关寄存器起始地址
-#define REG_DISCRETE_START    0x0000
-//开关寄存器数量
-#define REG_DISCRETE_SIZE     16
-
-
 /* Private variables ---------------------------------------------------------*/
 //输入寄存器内容
 uint16_t usRegInputBuf[REG_INPUT_NREGS] = {0x0001,0x0002,0x0003,0x0004,0x0005,0x0006,0x0007,0x0008};
@@ -43,7 +25,7 @@ uint16_t usRegInputBuf[REG_INPUT_NREGS] = {0x0001,0x0002,0x0003,0x0004,0x0005,0x
 uint16_t usRegInputStart = REG_INPUT_START;
 
 //保持寄存器内容
-uint16_t usRegHoldingBuf[REG_HOLDING_NREGS] = {0x1000,0x2000,0x3000,0x4000,0x5000,0x6000,0x7000,0x8000,0X9000};
+uint16_t usRegHoldingBuf[REG_HOLDING_NREGS];
 //保持寄存器起始地址
 uint16_t usRegHoldingStart = REG_HOLDING_START;
 
@@ -51,81 +33,35 @@ uint16_t usRegHoldingStart = REG_HOLDING_START;
 uint8_t ucRegCoilsBuf[REG_COILS_SIZE / 8] = {0x00,0x00};
 //开关输入状态
 uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
+
+
+
  int main(void)
  {   
  	uint32_t t1 = 0;
 	uint8_t button = 0;
 	uint8_t oled_flag =0;
-	uint16_t nn = 1;
 	 
 		T_GPIO_Init();
 		ADC1_Init();
 		delay_init();	    	 //delay	  
 		OLED_Init();			//oled  
 		OLED_Clear();
+	 	Timer2_Init();
 	 
 	 	GPIO_SetBits(GPIOB,GPIO_Pin_3 | GPIO_Pin_4 |GPIO_Pin_5 |GPIO_Pin_8 | GPIO_Pin_9);
 		GPIO_SetBits(GPIOA,GPIO_Pin_15);
 	 
+	  eMBInit(MB_RTU, 1, 0x01, 9600, MB_PAR_NONE); //初始化 RTU模式 从机地址为1 USART1 9600 无校验 
+		eMBEnable(); //启动FreeModbus 
+	 
 	 while(1)
 	 {
+		 T_Poll();
+		 //Reg_Poll();
+		eMBPoll(); 
 	 	ADC1_Poll();
-		 if(t1 != 0)
-		 {
-				t1--;
-		 }
-		 
-		// if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
-		 {
-			 if(t1 == 0)
-			{
-				delay_ms(1);
-		//		if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1) == 0)
-				{
-					 t1 = 360000;
-					 button = 1;
-				}
-			}
-		 }
-		 
-		 if(button == 1)
-		 {
-			button = 0;
-			 switch(oled_flag){
-				 case 0: 
-								OLED_ShowSymbol(0,0,0);
-								OLED_ShowBig(0,2,11);
-					 			OLED_ShowBig(16,2,Temp_True[0]/100);
-								OLED_ShowBig(48,2,Temp_True[0]%100/10);
-								OLED_ShowBig(80,2,10);
-								OLED_ShowBig(96,2,Temp_True[0]%100%10);
-								OLED_ShowSymbol(32,0,1);
-								OLED_ShowSymbol(64,0,2);
-								OLED_ShowSymbol(96,0,3);
-								
-							//OLED_ShowSymbol(0,2,1);
-								//OLED_ShowSymbol(0,4,2);
-								//OLED_ShowSymbol(0,6,3);
-								oled_flag = 1;
-								break;
-				 case 1:
-								OLED_ShowSymbol(0,0,1);
-					 			OLED_ShowBig(16,2,Temp_True[1]/100);
-								OLED_ShowBig(48,2,Temp_True[1]%100/10);
-								OLED_ShowBig(80,2,10);
-								OLED_ShowBig(96,2,Temp_True[1]%100%10);
-								
-								//OLED_ShowSymbol(0,2,1);
-								//OLED_ShowSymbol(0,4,2);
-								//OLED_ShowSymbol(0,6,3);
-								oled_flag= 0;
-								break;
-				 default:
-								break;
-			 }
 
-		 }
-		 
 	 }
 	 
 	 

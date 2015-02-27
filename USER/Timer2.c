@@ -1,5 +1,6 @@
 #include "Timer2.h"
 #include "Led.h"
+#include "T_App.h"
 __IO u32 ms_counter;
 
 
@@ -55,8 +56,21 @@ void TIM2_IRQHandler(void)
 			//Led1_OFF();
 			
 		}
-	
+	 if(Button_t>0)
+	 	{
+			Button_t--;
+	 	}
+	if(Mode_t>0)
+		{
+			Mode_t--;
+	}
   }
+	
+	oled_t++;
+	if(oled_t >= 1000)
+	{
+		oled_t =0;
+	}
 
 
 }
