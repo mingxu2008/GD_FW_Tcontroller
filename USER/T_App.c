@@ -119,6 +119,12 @@ void Mode_Poll(void)
 void Oled_Poll(void)
 {
 	int32_t T_Temp;
+if((Mode_t < 500) && (Mode_t > 0))
+	{
+				OLED_Clear();
+				Mode_t = 0;
+	}
+	
 	if(oled_t != 1000)
 	{
 		return;
@@ -132,16 +138,17 @@ void Oled_Poll(void)
 		//OLED_Clear();
 		if(Temp_True[0]<0)
 		{
-			OLED_ShowBig(0,2,11);		//'-'
+			OLED_ShowSymbol(0,4,8);	//'-'
 			T_Temp = 0 - Temp_True[0];
 		}
 		else
 		{
 			T_Temp = Temp_True[0];
 		}
+		//OLED_ShowSymbol(0,4,8);		//'-'
 		OLED_ShowBig(16,2,Temp_True[0]/100);
 		OLED_ShowBig(48,2,Temp_True[0]%100/10);
-		OLED_ShowBig(80,2,10);
+		OLED_ShowSymbol(80,6,7);
 		OLED_ShowBig(96,2,Temp_True[0]%100%10);
 		OLED_ShowSymbol(0,0,0);
 		OLED_ShowChar(16,0,'e');
@@ -152,30 +159,25 @@ void Oled_Poll(void)
 		OLED_ShowSymbol(108,0,5);
 	
 	}
-	else if((Mode_t < 500) && (Mode_t > 0))
-	{
-				OLED_Clear();
-				Mode_t = 0;
-	}
 
 	else
 	{
-		OLED_ShowString(0,0,"<<<<<<<<<<<<<<<<");
+		//OLED_ShowString(0,0,"<<<<<<<<<<<<<<<<");
 		switch(MODE_Temp){
 			case COOL_S:
-				OLED_ShowString(0,0,"Cooling_S");break;
+				OLED_ShowString(0,0,"Cooling_S<<<<<<<");break;
 			case COOL_E:
-				OLED_ShowString(0,0,"Cooling_E");break;
+				OLED_ShowString(0,0,"Cooling_E<<<<<<<");break;
 			case COOL_H:
-				OLED_ShowString(0,0,"Cooling_H");break;
+				OLED_ShowString(0,0,"Cooling_H<<<<<<<");break;
 			case DFROST:
-				OLED_ShowString(0,0,"Defrost");break;			
+				OLED_ShowString(0,0,"Defrost<<<<<<<<<");break;			
 			case COMP_CLOSE:
-				OLED_ShowString(0,0,"Compclose");break;
+				OLED_ShowString(0,0,"Compclose<<<<<<<");break;
 			case T_OFF:
-				OLED_ShowString(0,0,"Toff");break;
+				OLED_ShowString(0,0,"Toff<<<<<<<<<<<<");break;
 			case AUTO_CTR:
-				OLED_ShowString(0,0,"auto");	break;
+				OLED_ShowString(0,0,"auto<<<<<<<<<<<<");	break;
 			default:
 				break;
 		}
