@@ -6,6 +6,7 @@ uint16_t  *T_REG = usRegHoldingBuf;
 uint32_t Button_t,Mode_t;
 uint8_t button_flag;
 uint16_t oled_t;	
+uint16_t cool_m;
 
 void Reg_Poll(void)
 {
@@ -18,15 +19,8 @@ void Reg_Poll(void)
 
 void Relay_Poll(void)
 {
-	if(T_REG[DEFROST] == ON)						//defrost
-	{
-		GPIO_SetBits(GPIOB,GPIO_Pin_9);
-	}
-	else
-	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_9);
-	}
-	if(T_REG[COMPRESSOR] == ON)					//COMPRESSOR
+	
+		if(T_REG[COMPRESSOR] == ON)					//COMPRESSOR
 	{
 		GPIO_SetBits(GPIOB,GPIO_Pin_8);
 	}
@@ -34,13 +28,13 @@ void Relay_Poll(void)
 	{
 		GPIO_ResetBits(GPIOB,GPIO_Pin_8);
 	}
-	if(T_REG[DEMIST] == ON)						//DEMIST
+	if(T_REG[DEFROST] == ON)						//defrost
 	{
-		GPIO_SetBits(GPIOB,GPIO_Pin_5);
+		GPIO_SetBits(GPIOB,GPIO_Pin_9);
 	}
 	else
 	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_5);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_9);
 	}
 	if(T_REG[LIGHT] == ON)						//LIGHT
 	{
@@ -57,6 +51,14 @@ void Relay_Poll(void)
 	else
 	{
 		GPIO_ResetBits(GPIOB,GPIO_Pin_3);
+	}
+	if(T_REG[DEMIST] == ON)						//DEMIST
+	{
+		GPIO_SetBits(GPIOB,GPIO_Pin_5);
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_5);
 	}
 	if(T_REG[AUX] == ON)							//AUX
 	{
@@ -145,18 +147,49 @@ if((Mode_t < 500) && (Mode_t > 0))
 		{
 			T_Temp = Temp_True[0];
 		}
-		//OLED_ShowSymbol(0,4,8);		//'-'
+
 		OLED_ShowBig(16,2,Temp_True[0]/100);
 		OLED_ShowBig(48,2,Temp_True[0]%100/10);
 		OLED_ShowSymbol(80,6,7);
 		OLED_ShowBig(96,2,Temp_True[0]%100%10);
-		OLED_ShowSymbol(0,0,0);
-		OLED_ShowChar(16,0,'e');
-		OLED_ShowSymbol(28,0,1);
-		OLED_ShowSymbol(48,0,2);
-		OLED_ShowSymbol(68,0,3);
-		OLED_ShowSymbol(88,0,4);
-		OLED_ShowSymbol(108,0,5);
+		
+		if(T_REG[COMPRESSOR] == ON )
+			OLED_ShowSymbol(0,0,1);		//freezing
+		else
+			OLED_ShowSymbol(0,0,6);		//' '
+		
+		if(T_REG[COOL_MODE] == COOL_E  )
+			OLED_ShowChar(16,0,'e');	//'e''s''h'
+		else if(T_REG[COOL_MODE] )
+			OLED_ShowChar(16,0,'h');	//'e''s''h'
+		else
+			OLED_ShowSymbol(16,0,6);		//' '
+		
+		if(T_REG[DEFROST] == ON )			
+		OLED_ShowSymbol(28,0,2);	//defrost
+		else
+			OLED_ShowSymbol(28,0,6);		//' '
+		
+		if(T_REG[LIGHT] == ON )
+		OLED_ShowSymbol(48,0,3);	//light
+		else
+			OLED_ShowSymbol(48,0,6);		//' '
+		
+		if(T_REG[FAN] == ON )
+
+		OLED_ShowSymbol(68,0,4);	//fan
+		else
+			OLED_ShowSymbol(68,0,6);		//' '
+		
+		if(T_REG[DEMIST] == ON )
+		OLED_ShowSymbol(88,0,5);	//demist
+		else
+			OLED_ShowSymbol(88,0,6);		//' '
+		
+		if(T_REG[AUX] == ON )
+		OLED_ShowSymbol(108,0,0);	//aux
+		else
+			OLED_ShowSymbol(108,0,6);		//' '
 	
 	}
 

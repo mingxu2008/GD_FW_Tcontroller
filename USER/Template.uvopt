@@ -80,24 +80,54 @@
         <Book>
           <Number>0</Number>
           <Title>Base Board Schematics (MCBSTM32E)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Documents\mcbstm32e-base-board-schematics.pdf</Path>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Documents\mcbstm32e-base-board-schematics.pdf</Path>
         </Book>
         <Book>
           <Number>1</Number>
           <Title>Display Board Schematics (MCBSTM32E)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Documents\mcbstm32e-display-board-schematics.pdf</Path>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Documents\mcbstm32e-display-board-schematics.pdf</Path>
         </Book>
         <Book>
           <Number>2</Number>
           <Title>User Manual (MCBSTM32E)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Documents\mcbstm32e.chm</Path>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Documents\mcbstm32e.chm</Path>
         </Book>
         <Book>
           <Number>3</Number>
+          <Title>User Manual (NUCLEO-F103RB)</Title>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32NUCLEO_BSP\1.0.0\Documents\DM00105823.pdf</Path>
+        </Book>
+        <Book>
+          <Number>4</Number>
+          <Title>Getting started (NUCLEO-F103RB)</Title>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32NUCLEO_BSP\1.0.0\Documents\DM00105925.pdf</Path>
+        </Book>
+        <Book>
+          <Number>5</Number>
+          <Title>Schematics (NUCLEO-F103RB)</Title>
+          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32NUCLEO_BSP\1.0.0\Documents\MB1136.pdf</Path>
+        </Book>
+        <Book>
+          <Number>6</Number>
           <Title>MCBSTM32E Evaluation Board Web Page (MCBSTM32E)</Title>
           <Path>http://www.keil.com/mcbstm32e/</Path>
         </Book>
+        <Book>
+          <Number>7</Number>
+          <Title>Nucleo STM32 F1 series development board (NUCLEO-F103RB)</Title>
+          <Path>http://www.st.com/web/en/catalog/tools/PF259875</Path>
+        </Book>
       </Books>
+      <DllOpt>
+        <SimDllName>SARMCM3.DLL</SimDllName>
+        <SimDllArguments></SimDllArguments>
+        <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
+        <SimDlgDllArguments>-pSTM32F103C8</SimDlgDllArguments>
+        <TargetDllName>SARMCM3.DLL</TargetDllName>
+        <TargetDllArguments></TargetDllArguments>
+        <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
+        <TargetDlgDllArguments>-pSTM32F103C8</TargetDlgDllArguments>
+      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -118,10 +148,9 @@
         <tRtrace>0</tRtrace>
         <sRSysVw>1</sRSysVw>
         <tRSysVw>1</tRSysVw>
-        <tPdscDbg>0</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>7</nTsel>
+        <nTsel>6</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -168,10 +197,75 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U20080643 -O111 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000</Name>
+          <Name>-U20080643 -O111 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128.FLM -FS08000000 -FL020000 -FP0($$Device:STM32F103C8$Flash\STM32F10x_128.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>156</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134225206</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>C:\Users\jeqi\Documents\GD_FW_Tcontroller\USER\T_App.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Template\T_App.c\156</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>160</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134225228</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>C:\Users\jeqi\Documents\GD_FW_Tcontroller\USER\T_App.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Template\T_App.c\160</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>157</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>C:\Users\jeqi\Documents\GD_FW_Tcontroller\USER\T_App.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>161</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>C:\Users\jeqi\Documents\GD_FW_Tcontroller\USER\T_App.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -235,10 +329,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>20</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>43</TopLine>
-      <CurrentLine>29</CurrentLine>
+      <TopLine>29</TopLine>
+      <CurrentLine>40</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -345,11 +439,11 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>8</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>16</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>52</TopLine>
+      <TopLine>44</TopLine>
       <CurrentLine>45</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\oled.c</PathWithFileName>
@@ -393,12 +487,12 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>11</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>29</ColumnNumber>
+      <ColumnNumber>3</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>124</TopLine>
-      <CurrentLine>141</CurrentLine>
+      <TopLine>16</TopLine>
+      <CurrentLine>28</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\T_App.c</PathWithFileName>
       <FilenameWithoutPath>T_App.c</FilenameWithoutPath>
@@ -437,7 +531,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>125</TopLine>
+      <TopLine>119</TopLine>
       <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\CORE\startup_stm32f10x_md.s</PathWithFileName>

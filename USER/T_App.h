@@ -22,11 +22,11 @@ enum T_Mode{
 };
 
 enum T_INDEX{
-	DEFROST,					//defrost register
 	COMPRESSOR,				//compressor
-	DEMIST,		//DEMIST
+	DEFROST,					//defrost register
 	LIGHT,		//LIGHT
 	FAN,			//FAN
+	DEMIST, 	//DEMIST
 	AUX,			//auxiliary
 	DEFROST_T1,
 	DEFROST_T2,
@@ -46,7 +46,8 @@ enum T_INDEX{
 	WARNING,
 	WARN_TEMP,
 	WARN_DELAY,
-	RUNNING_MODE
+	RUNNING_MODE,
+	COOL_MODE,
 		};
 
 extern uint32_t Button_t,Mode_t;
