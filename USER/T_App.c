@@ -111,9 +111,45 @@ void Button_Poll(void)
 
 void Mode_Poll(void)
 {
-	if(Mode_t == 0)
+	//button
+	if( Mode_t == 0)
+	{
+
+	}
+	else if(Mode_t < 100)
+	{
+
+	}
+	else if(Mode_t < 200)
 	{
 		T_REG[RUNNING_MODE] = MODE_Temp;
+		Mode_t = 100;
+	}
+	else
+	{
+	
+	}
+}
+
+void Cool_Mode_Poll()
+{
+
+	//normal poll
+	if(T_REG[RUNNING_MODE] == COOL_S)
+	{
+		T_REG[COOL_MODE] = COOL_S;
+	}
+	else if(T_REG[RUNNING_MODE] == COOL_E)
+	{
+		T_REG[COOL_MODE] = COOL_E;
+	}
+	else if(T_REG[RUNNING_MODE] == COOL_H)
+	{
+		T_REG[COOL_MODE] = COOL_H;
+	}
+	else
+	{
+				//T_REG[COOL_MODE]=0xff;	//0xff->COOL_MODE OFF
 	}
 
 }
@@ -121,12 +157,12 @@ void Mode_Poll(void)
 void Oled_Poll(void)
 {
 	int32_t T_Temp;
-if((Mode_t < 500) && (Mode_t > 0))
+if((Mode_t < 100) && (Mode_t > 0))
 	{
 				OLED_Clear();
 				Mode_t = 0;
 	}
-	
+//oled poll time.	
 	if(oled_t != 1000)
 	{
 		return;
@@ -135,6 +171,7 @@ if((Mode_t < 500) && (Mode_t > 0))
 	{
 		oled_t = 0;
 	}
+	
 	if(Mode_t == 0)
 	{
 		//OLED_Clear();
@@ -160,7 +197,7 @@ if((Mode_t < 500) && (Mode_t > 0))
 		
 		if(T_REG[COOL_MODE] == COOL_E  )
 			OLED_ShowChar(16,0,'e');	//'e''s''h'
-		else if(T_REG[COOL_MODE] )
+		else if(T_REG[COOL_MODE] == COOL_H)
 			OLED_ShowChar(16,0,'h');	//'e''s''h'
 		else
 			OLED_ShowSymbol(16,0,6);		//' '
@@ -218,47 +255,107 @@ if((Mode_t < 500) && (Mode_t > 0))
 
 }
 
-#if 0
-void Oled_Poll(void)
+void Sub_Cool(uint8_t m)
 {
-	int32_t T_Temp;
-	
-	
-	if(Temp_True[0]<0)
+	int16_t tt;
+	T_REG[COOL_MODE] = m;	
+	if(m == COOL_S)
 	{
-		OLED_ShowBig(0,2,11);		//'-'
-		T_Temp = 0 - Temp_True[0];
+		T_REG[SETPOINT] = 4;	//4 degree 
+		T_REG[TEMP_DIFF] = 3;	//4-2=2 degree
+		T_REG[COMPRESSOR_DELAY] = 5;	//delay
+	}
+	else if(m == COOL_E)
+	{
+		T_REG[SETPOINT] = 4;
+		T_REG[TEMP_DIFF] = 2;
+		T_REG[COMPRESSOR_DELAY] = 7;	//delay
+	}
+	else if(m == COOL_H)
+	{
+		T_REG[SETPOINT] = 4;
+		T_REG[TEMP_DIFF] = 4;
+		T_REG[COMPRESSOR_DELAY] = 3;	//delay
+	}
+	else
+	{}
+	
+
+	
+	tt = T_REG[SETPOINT]-T_REG[TEMP_DIFF];
+	if(T_REG[TEMP_1] > tt)	
+	{
+		T_REG[COMPRESSOR] = ON;
+		T_REG[DEFROST] = OFF;
 	}
 	else
 	{
-		T_Temp = Temp_True[0];
+		T_REG[COMPRESSOR] = OFF;
+		T_REG[DEFROST] = OFF;
 	}
-	OLED_ShowBig(16,2,Temp_True[0]/100);
-	OLED_ShowBig(48,2,Temp_True[0]%100/10);
-	OLED_ShowBig(80,2,10);
-	OLED_ShowBig(96,2,Temp_True[0]%100%10);
-	
-	
-	switch(MODE_Temp){
-		case COOL_S:
-			if(MODE_Temp != T_REG[RUNNING_MODE])
-			{
-				OLED_ShowSymbol(0,0,0);
-			}
-			OLED_ShowSymbol(0,0,0);
-		
-			break;
+}
+
+void Sub_Defrost(void)
+{
+	int16_t tt;
+	tt = T_REG[DEFROST_TEMP];
+	if(T_REG[TEMP_2] < tt)			//defrost on
+	{
+		T_REG[COMPRESSOR] = OFF;
+		T_REG[DEFROST] = ON;
 	}
-	
-	OLED_ShowChar(16,0,'e');
-	OLED_ShowSymbol(28,0,1);
-	OLED_ShowSymbol(48,0,2);
-	OLED_ShowSymbol(68,0,3);
-	OLED_ShowSymbol(88,0,4);
-	OLED_ShowSymbol(108,0,5);
+	else												//defrost off
+	{
+		T_REG[COMPRESSOR] = OFF;
+		T_REG[DEFROST] = OFF;
+	}
 
 }
-#endif
+
+void Running_Poll(void)
+{
+	switch(T_REG[RUNNING_MODE]){
+		case COOL_S:			Sub_Cool(COOL_S);
+											T_REG[LIGHT] = ON;
+											T_REG[FAN] = ON;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF;	break;
+		case COOL_E:			Sub_Cool(COOL_E);
+											T_REG[LIGHT] = ON;
+											T_REG[FAN] = ON;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF; break;		
+		case COOL_H:			Sub_Cool(COOL_H);
+											T_REG[LIGHT] = ON;
+											T_REG[FAN] = ON;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF; break;	
+		case DFROST:			Sub_Defrost();
+											T_REG[LIGHT] = ON;
+											T_REG[FAN] = ON;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF;
+											T_REG[COOL_MODE] = 0XFF;	break;	
+		case COMP_CLOSE:	T_REG[COMPRESSOR] = OFF;
+											T_REG[DEFROST] = OFF;
+											T_REG[LIGHT] = ON;
+											T_REG[FAN] = ON;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF;
+											T_REG[COOL_MODE] = 0XFF;	break;	
+		case T_OFF:				T_REG[COMPRESSOR] = OFF;
+											T_REG[DEFROST] = OFF;
+											T_REG[LIGHT] = OFF;
+											T_REG[FAN] = OFF;
+											T_REG[DEMIST] = OFF;
+											T_REG[AUX] = OFF;
+											T_REG[COOL_MODE] = 0XFF;	break;	
+		case AUTO_CTR:		//T_REG[COMPRESSOR] = ON;
+											//T_REG[COOL_MODE] = 0XFF;	break;	
+		default:	break;
+	}
+
+}
 
 void T_Poll(void)
 {
@@ -267,6 +364,8 @@ void T_Poll(void)
 	Button_Poll();
 	Mode_Poll();
 	Oled_Poll();
+	//Cool_Mode_Poll();
+	Running_Poll();
 }
 
 
