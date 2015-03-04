@@ -9,6 +9,7 @@
 #include "eeprom.h"
 #include "main.h"
 #include "T_App.h"
+#include "T_RTC.h"
 
 /*****************/
 
@@ -48,12 +49,14 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 		OLED_Init();			//oled  
 		OLED_Clear();
 	 	Timer2_Init();
-	 
+		T_RTC_Init();
 	 	GPIO_SetBits(GPIOB,GPIO_Pin_3 | GPIO_Pin_4 |GPIO_Pin_5 |GPIO_Pin_8 | GPIO_Pin_9);
 		GPIO_SetBits(GPIOA,GPIO_Pin_15);
 	 
 	  eMBInit(MB_RTU, 1, 0x01, 9600, MB_PAR_NONE); //初始化 RTU模式 从机地址为1 USART1 9600 无校验 
 		eMBEnable(); //启动FreeModbus 
+	 
+		T_Init();
 	 
 	 while(1)
 	 {
@@ -61,6 +64,7 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 		 //Reg_Poll();
 		eMBPoll(); 
 	 	ADC1_Poll();
+		 T_RTC_Poll();
 
 	 }
 	 

@@ -459,6 +459,11 @@
               <FileType>1</FileType>
               <FilePath>.\T_App.c</FilePath>
             </File>
+            <File>
+              <FileName>T_RTC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\T_RTC.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -523,6 +528,21 @@
               <FileName>stm32f10x_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\stm32f10x_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_bkp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_bkp.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_pwr.c</FilePath>
             </File>
           </Files>
         </Group>

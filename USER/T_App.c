@@ -1,6 +1,7 @@
 #include "T_App.h"
 #include "T_Sensor.h"
 #include "oled.h"
+#include "T_RTC.h"
 uint16_t  *T_REG = usRegHoldingBuf;
 
 uint32_t Button_t,Mode_t;
@@ -355,6 +356,12 @@ void Running_Poll(void)
 		default:	break;
 	}
 
+}
+
+void T_Init(void)
+{
+	T_REG[T_RTC_CFG] = OFF;		//UN SET VALUE
+	//T_REG[T_RTC_CFG2] = 0XFFFF;
 }
 
 void T_Poll(void)

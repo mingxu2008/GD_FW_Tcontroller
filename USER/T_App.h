@@ -48,11 +48,17 @@ enum T_INDEX{
 	WARN_DELAY,
 	RUNNING_MODE,
 	COOL_MODE,
+	T_RTC1,
+	T_RTC2,
+	T_RTC_CFG1,
+	T_RTC_CFG2,
+	T_RTC_CFG,
 		};
 
 extern uint32_t Button_t,Mode_t;
 extern uint8_t button_flag;
 extern uint16_t oled_t;	
+extern void T_Init(void);
 //extern void Reg_Poll(void);
 //extern void Relay_Poll(void);
 extern void T_Poll(void);
