@@ -60,6 +60,8 @@ void T_RTC_Init(void)
   }
   else
   {
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
+		PWR_BackupAccessCmd(ENABLE);
     /* Check if the Power On Reset flag is set */
     if (RCC_GetFlagStatus(RCC_FLAG_PORRST) != RESET)
     {
@@ -151,6 +153,37 @@ void RTC_IRQHandler(void)
     /* Wait until last write operation on RTC registers has finished */
     RTC_WaitForLastTask();
     
+		/*warn delay*/
+		if(warn_i < T_REG[WARN_DELAY])
+		{
+			warn_i ++;
+		}
+		else
+		{
+			warn_flag = 1;
+			warn_i = 0;
+		}
+#if 0
+		/*defrost delay*/
+		if(defrost_i < T_REG[DEFROST_DURA])
+		{
+			defrost_i ++;
+		}
+		else
+		{
+		//	defrost_flag = FINISH;
+		}
+#endif
+		/*COMPRESSOR delay*/
+		if(comp_i < usRegHoldingBuf[COMP_DELAY])
+		{
+			comp_i ++;
+		}
+		else
+		{
+			comp_flag = 1;
+			comp_i = 0;
+		}		
   }
 }
 

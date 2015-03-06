@@ -10,6 +10,13 @@
 
 extern uint16_t  *T_REG;
 
+enum T_Flag{
+	UNSTART,
+	START,
+	FINISH,	
+};
+
+
 enum T_Mode{
 	COOL_S,
 	COOL_E,
@@ -36,7 +43,7 @@ enum T_INDEX{
 	DEFROST_T6,
 	DEFROST_DURA,
 	DEFROST_TEMP,
-	COMPRESSOR_DELAY,
+	COMP_DELAY,
 	SETPOINT,
 	TEMP_1,		//COOLING
 	TEMP_2,		//DEFROST
@@ -58,10 +65,17 @@ enum T_INDEX{
 extern uint32_t Button_t,Mode_t;
 extern uint8_t button_flag;
 extern uint16_t oled_t;	
+extern uint16_t warn_i;
+extern uint8_t warn_flag;
+extern uint16_t defrost_i;
+extern __IO uint8_t defrost_flag;
+extern __IO uint16_t comp_i;
+extern __IO uint8_t comp_flag;
 extern void T_Init(void);
 //extern void Reg_Poll(void);
 //extern void Relay_Poll(void);
 extern void T_Poll(void);
+		
 
 #endif
 

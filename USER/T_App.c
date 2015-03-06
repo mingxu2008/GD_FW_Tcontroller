@@ -9,25 +9,29 @@ uint8_t button_flag;
 uint16_t oled_t;	
 uint16_t cool_m;
 
-void Reg_Poll(void)
+void Temp_Poll(void)
 {
-	T_REG[TEMP_1] = Temp_True[0];
-	T_REG[TEMP_2] = Temp_True[1];
+	T_REG[TEMP_1] = Temp_True[0] + T_REG[TEMP_OFFSET1];			//TEMP = TEMP_TRUE + TEMP_OFFSET
+	T_REG[TEMP_2] = Temp_True[1] + T_REG[TEMP_OFFSET2];
 
 }
 
-
+__IO uint16_t comp_i = 0;
+__IO uint8_t comp_flag = 0;
 
 void Relay_Poll(void)
 {
-	
-		if(T_REG[COMPRESSOR] == ON)					//COMPRESSOR
+	if(comp_flag == 1)		//comp delay
 	{
-		GPIO_SetBits(GPIOB,GPIO_Pin_8);
-	}
-	else
-	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_8);
+		comp_flag = 0;
+			if(T_REG[COMPRESSOR] == ON)					//COMPRESSOR
+		{
+			GPIO_SetBits(GPIOB,GPIO_Pin_8);
+		}
+		else
+		{
+			GPIO_ResetBits(GPIOB,GPIO_Pin_8);
+		}
 	}
 	if(T_REG[DEFROST] == ON)						//defrost
 	{
@@ -264,19 +268,19 @@ void Sub_Cool(uint8_t m)
 	{
 		T_REG[SETPOINT] = 4;	//4 degree 
 		T_REG[TEMP_DIFF] = 3;	//4-2=2 degree
-		T_REG[COMPRESSOR_DELAY] = 5;	//delay
+		T_REG[COMP_DELAY] = 5;	//delay
 	}
 	else if(m == COOL_E)
 	{
 		T_REG[SETPOINT] = 4;
 		T_REG[TEMP_DIFF] = 2;
-		T_REG[COMPRESSOR_DELAY] = 7;	//delay
+		T_REG[COMP_DELAY] = 7;	//delay
 	}
 	else if(m == COOL_H)
 	{
 		T_REG[SETPOINT] = 4;
 		T_REG[TEMP_DIFF] = 4;
-		T_REG[COMPRESSOR_DELAY] = 3;	//delay
+		T_REG[COMP_DELAY] = 3;	//delay
 	}
 	else
 	{}
@@ -296,21 +300,45 @@ void Sub_Cool(uint8_t m)
 	}
 }
 
+uint16_t defrost_i = 0;
+__IO uint8_t defrost_flag = UNSTART;
+//uint8_t defrost_finish = 0;
+
 void Sub_Defrost(void)
 {
 	int16_t tt;
 	tt = T_REG[DEFROST_TEMP];
-	if(T_REG[TEMP_2] < tt)			//defrost on
-	{
-		T_REG[COMPRESSOR] = OFF;
-		T_REG[DEFROST] = ON;
+	switch(defrost_flag){
+		case UNSTART : 															//Start
+			defrost_i = 0;
+			defrost_flag = START;
+			break;
+		case START : 																//Running
+			if(T_REG[TEMP_2] < tt)			//defrost on
+			{
+				T_REG[COMPRESSOR] = OFF;
+				T_REG[DEFROST] = ON;
+				if(defrost_i >= T_REG[DEFROST_DURA])
+				{
+					defrost_flag = FINISH;
+				}
+			}
+			else
+			{
+				defrost_flag = FINISH;
+			}
+			break;
+		case FINISH:
+			T_REG[COMPRESSOR] = OFF;		//defrost off
+			T_REG[DEFROST] = OFF;
+			T_REG[RUNNING_MODE] = T_REG[COOL_MODE];			//recover cool mode
+			MODE_Temp = T_REG[RUNNING_MODE];
+			defrost_flag = UNSTART;
+			break;
+		default: break;
+	
+	
 	}
-	else												//defrost off
-	{
-		T_REG[COMPRESSOR] = OFF;
-		T_REG[DEFROST] = OFF;
-	}
-
 }
 
 void Running_Poll(void)
@@ -336,21 +364,24 @@ void Running_Poll(void)
 											T_REG[FAN] = ON;
 											T_REG[DEMIST] = OFF;
 											T_REG[AUX] = OFF;
-											T_REG[COOL_MODE] = 0XFF;	break;	
+											//T_REG[COOL_MODE] = 0XFF;	
+											break;	
 		case COMP_CLOSE:	T_REG[COMPRESSOR] = OFF;
 											T_REG[DEFROST] = OFF;
 											T_REG[LIGHT] = ON;
 											T_REG[FAN] = ON;
 											T_REG[DEMIST] = OFF;
 											T_REG[AUX] = OFF;
-											T_REG[COOL_MODE] = 0XFF;	break;	
+										//	T_REG[COOL_MODE] = 0XFF;	
+											break;	
 		case T_OFF:				T_REG[COMPRESSOR] = OFF;
 											T_REG[DEFROST] = OFF;
 											T_REG[LIGHT] = OFF;
 											T_REG[FAN] = OFF;
 											T_REG[DEMIST] = OFF;
 											T_REG[AUX] = OFF;
-											T_REG[COOL_MODE] = 0XFF;	break;	
+										//	T_REG[COOL_MODE] = 0XFF;	
+											break;	
 		case AUTO_CTR:		//T_REG[COMPRESSOR] = ON;
 											//T_REG[COOL_MODE] = 0XFF;	break;	
 		default:	break;
@@ -361,18 +392,42 @@ void Running_Poll(void)
 void T_Init(void)
 {
 	T_REG[T_RTC_CFG] = OFF;		//UN SET VALUE
+	T_REG[DEFROST_DURA] = 60;	//defrost duration 60s
+	T_REG[DEFROST_TEMP] = 100;//defrost tempurature 10 degree.
 	//T_REG[T_RTC_CFG2] = 0XFFFF;
+}
+uint16_t warn_i = 0;
+uint8_t warn_flag = 0;
+void Warn_Poll(void)
+{
+	if( warn_flag == 0 )
+	{
+		return;
+	}
+	else
+	{
+		warn_flag = 0;
+	}
+	if(T_REG[TEMP_1] > T_REG[WARN_TEMP])
+	{
+		T_REG[WARNING] = ON;
+	}
+	else
+	{
+		T_REG[WARNING] = OFF;
+	}
 }
 
 void T_Poll(void)
 {
 	Relay_Poll();
-	Reg_Poll();
+	Temp_Poll();
 	Button_Poll();
 	Mode_Poll();
 	Oled_Poll();
 	//Cool_Mode_Poll();
 	Running_Poll();
+	Warn_Poll();
 }
 
 
