@@ -213,56 +213,70 @@ void OLED_ShowSymbol(u8 x,u8 y,u8 no)
       }					
 }
 
-#define ROW_NUM 6
+//Show Symbol_8x8
+void OLED_Show8x8(u8 x,u8 y,u8 no)
+{      			    
+	u8 t,adder=0;
+	OLED_Set_Pos(x,y);	
+    for(t=0;t<8;t++)
+		{
+				OLED_WR_Byte(Sym_8X8[1*no][t],OLED_DATA);
+				adder+=1;
+     }				
+}
+
+
+#define ROW_NUM 4
+#define COL_NUM 24
 //Big
 void OLED_ShowBig(u8 x,u8 y,u8 no)
 {      			    
 	u8 t,adder=0;
 		OLED_Set_Pos(x,y);												//no.1
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 		{
 				OLED_WR_Byte(Big[ROW_NUM*no][t],OLED_DATA);
 				adder+=1;
      }	
 		OLED_Set_Pos(x,y+1);											//no.2
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[ROW_NUM*no+1][t],OLED_DATA);
 				adder+=1;
       }		
 		OLED_Set_Pos(x,y+2);											//no.3
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[ROW_NUM*no+2][t],OLED_DATA);
 				adder+=1;
       }		
 		OLED_Set_Pos(x,y+3);											//no.4
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[ROW_NUM*no+3][t],OLED_DATA);
 				adder+=1;
       }					
+#if 0
 		OLED_Set_Pos(x,y+4);											//no.5
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[ROW_NUM*no+4][t],OLED_DATA);
 				adder+=1;
       }	
 		OLED_Set_Pos(x,y+5);											//no.6
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[ROW_NUM*no+5][t],OLED_DATA);
 				adder+=1;
       }	
-#if 0
 		OLED_Set_Pos(x,y+6);											//no.7
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[8*no+6][t],OLED_DATA);
 				adder+=1;
       }	
 		OLED_Set_Pos(x,y+7);											//no.8
-    for(t=0;t<32;t++)
+    for(t=0;t<COL_NUM;t++)
 			{	
 				OLED_WR_Byte(Big[8*no+7][t],OLED_DATA);
 				adder+=1;

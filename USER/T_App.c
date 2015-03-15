@@ -180,21 +180,30 @@ if((Mode_t < 100) && (Mode_t > 0))
 	if(Mode_t == 0)
 	{
 		//OLED_Clear();
+#if 0						//jerry
 		if(Temp_True[0]<0)
 		{
-			OLED_ShowSymbol(0,4,8);	//'-'
+			OLED_ShowSymbol(32,5,8);	//'-'
 			T_Temp = 0 - Temp_True[0];
 		}
 		else
 		{
 			T_Temp = Temp_True[0];
 		}
-
-		OLED_ShowBig(16,2,Temp_True[0]/100);
-		OLED_ShowBig(48,2,Temp_True[0]%100/10);
-		OLED_ShowSymbol(80,6,7);
-		OLED_ShowBig(96,2,Temp_True[0]%100%10);
-		
+#endif
+		OLED_ShowSymbol(32,5,8);	//'-'		//jerry
+		OLED_ShowBig(48,4,Temp_True[0]/100);
+		OLED_ShowBig(72,4,Temp_True[0]%100/10);
+	//	OLED_ShowSymbol(88,7,7);
+		OLED_Show8x8(96,7,0);
+		OLED_ShowBig(104,4,Temp_True[0]%100%10);
+			OLED_ShowSymbol(0,0,1);		//freezing		
+			OLED_ShowSymbol(28,0,2);	//defrost	
+				OLED_ShowSymbol(48,0,3);	//light
+				OLED_ShowSymbol(68,0,4);	//fan
+				OLED_ShowSymbol(88,0,5);	//demist
+				OLED_ShowSymbol(108,0,0);	//aux
+#if 0			//jerry
 		if(T_REG[COMPRESSOR] == ON )
 			OLED_ShowSymbol(0,0,1);		//freezing
 		else
@@ -232,7 +241,7 @@ if((Mode_t < 100) && (Mode_t > 0))
 		OLED_ShowSymbol(108,0,0);	//aux
 		else
 			OLED_ShowSymbol(108,0,6);		//' '
-	
+#endif	
 	}
 
 	else
