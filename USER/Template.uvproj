@@ -464,6 +464,11 @@
               <FileType>1</FileType>
               <FilePath>.\T_RTC.c</FilePath>
             </File>
+            <File>
+              <FileName>T_PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\T_PWM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

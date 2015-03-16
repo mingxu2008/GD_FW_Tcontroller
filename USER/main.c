@@ -57,6 +57,7 @@ uint8_t ucRegDiscreteBuf[REG_DISCRETE_SIZE / 8] = {0x00,0x00};
 		eMBEnable(); //Æô¶¯FreeModbus 
 	 
 		T_Init();
+	 T_PWM_Init();
 	 
 	 while(1)
 	 {
